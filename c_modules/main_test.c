@@ -32,7 +32,7 @@ void limparBuffer() {
 void exibirMenu() {
     printf("\n");
     printf("%s╔════════════════════════════════════════════╗%s\n", CYAN, RESET);
-    printf("%s║  SISTEMA DE TESTES - PIM II (C Modules)   ║%s\n", CYAN, RESET);
+    printf("%s║   SISTEMA DE TESTES - PIM II (C Modules)   ║%s\n", CYAN, RESET);
     printf("%s╚════════════════════════════════════════════╝%s\n", CYAN, RESET);
     printf("\n%s[1]%s Testar Módulo de Alunos (CRUD)\n", GREEN, RESET);
     printf("%s[2]%s Testar Módulo de Turmas (CRUD)\n", GREEN, RESET);
@@ -133,7 +133,7 @@ void testarModuloTurmas() {
                lista[i].semestre);
     }
     
-    printf("\n%s[TESTE]%s Buscando turma por ID (%d)...\n", YELLOW, t1.id, RESET);
+    printf("\n%s[TESTE]%s Buscando turma por ID (%d)...\n", YELLOW, RESET, t1.id);
     Turma *encontrada = buscarTurmaPorID(t1.id);
     if (encontrada != NULL) {
         printf("  %s✓ Turma encontrada:%s %s (Prof. %s)\n", 

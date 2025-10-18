@@ -4,16 +4,16 @@
 #include "aluno_manager.h"
 #include "file_manager.h"
 
-// Array global de alunos (em memória)
+// - Mantém alunos em memória enquanto o programa executa
 static Aluno alunos[MAX_ALUNOS];
 static int total_alunos = 0;
 
-// Função auxiliar para carregar alunos em memória
+// - Traz os dados do arquivo CSV para o array global
 static void carregarAlunosMemoria() {
     total_alunos = carregarDados(ARQUIVO_ALUNOS, alunos, MAX_ALUNOS, TIPO_ALUNO);
 }
 
-// Função auxiliar para salvar alunos no arquivo
+// - Persiste o array global novamente no CSV
 static void salvarAlunosArquivo() {
     salvarDados(ARQUIVO_ALUNOS, alunos, total_alunos, TIPO_ALUNO);
 }
@@ -26,7 +26,7 @@ int cadastrarAluno(Aluno *aluno) {
     
     carregarAlunosMemoria();
     
-    // Verificar se RA já existe (estrutura de repetição)
+    // - Garante unicidade de RA antes de inserir
     for (int i = 0; i < total_alunos; i++) {
         if (alunos[i].ra == aluno->ra) {
             printf("Erro: RA %d já cadastrado.\n", aluno->ra);
@@ -67,7 +67,7 @@ int listarAlunos(Aluno *destino, int max) {
     
     int count = (total_alunos < max) ? total_alunos : max;
     
-    // Copia alunos para o array de destino
+    // - Copia os registros para o buffer fornecido
     for (int i = 0; i < count; i++) {
         destino[i] = alunos[i];
     }
