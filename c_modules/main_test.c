@@ -107,9 +107,13 @@ void testarModuloTurmas() {
     printf("%s═══════════════════════════════════════════%s\n", BLUE, RESET);
     
     // Criar turmas de teste
-    Turma t1 = {gerarProximoIDTurma(), "ADS-2A", "Prof. Carlos Silva", 2025, 1};
-    Turma t2 = {gerarProximoIDTurma(), "ADS-2B", "Prof. Ana Paula", 2025, 1};
-    Turma t3 = {gerarProximoIDTurma(), "SI-3A", "Prof. Roberto Lima", 2025, 1};
+    int id1 = gerarProximoIDTurma();
+    int id2 = id1 + 1;
+    int id3 = id1 + 2;
+    
+    Turma t1 = {id1, "ADS-2A", "Prof. Carlos Silva", 2025, 1};
+    Turma t2 = {id2, "ADS-2B", "Prof. Ana Paula", 2025, 1};
+    Turma t3 = {id3, "SI-3A", "Prof. Roberto Lima", 2025, 1};
     
     printf("\n%s[TESTE]%s Cadastrando 3 turmas...\n", YELLOW, RESET);
     cadastrarTurma(&t1);
@@ -139,9 +143,13 @@ void testarModuloTurmas() {
     }
     
     printf("\n%s[TESTE]%s Atualizando professor da turma %s...\n", YELLOW, RESET, t2.nome);
-    t2.id = lista[1].id; // Usar o ID da segunda turma
-    strcpy(t2.professor, "Prof. Mariana Costa");
-    atualizarTurma(&t2);
+    if (total > 1) {
+        t2.id = lista[1].id; // Usar o ID da segunda turma
+        strcpy(t2.professor, "Prof. Mariana Costa");
+        atualizarTurma(&t2);
+    } else {
+        printf("  %sAviso: Não há turmas suficientes para atualizar.%s\n", YELLOW, RESET);
+    }
     
     printf("\n%s✅ TESTE 2 CONCLUÍDO!%s\n", GREEN, RESET);
 }
@@ -164,7 +172,9 @@ void testarAssociacaoAlunoTurma() {
     printf("\n%s[TESTE]%s Matriculando alunos nas turmas...\n", YELLOW, RESET);
     associarAlunoTurma(12345, turmas[0].id); // João na primeira turma
     associarAlunoTurma(12346, turmas[0].id); // Maria na primeira turma
-    associarAlunoTurma(12345, turmas[1].id); // João também na segunda turma
+    if (total_turmas > 1) {
+        associarAlunoTurma(12345, turmas[1].id); // João também na segunda turma
+    }
     
     printf("\n%s[TESTE]%s Listando alunos da turma '%s' (ID: %d):\n", 
            YELLOW, RESET, turmas[0].nome, turmas[0].id);
@@ -218,11 +228,15 @@ void testarModuloAulas() {
     int id_turma = turmas[0].id;
     
     // Criar aulas de teste
-    Aula aula1 = {gerarProximoIDAula(), id_turma, "15/10/2025", 
+    int id_aula1 = gerarProximoIDAula();
+    int id_aula2 = id_aula1 + 1;
+    int id_aula3 = id_aula1 + 2;
+    
+    Aula aula1 = {id_aula1, id_turma, "15/10/2025", 
                   "Introdução à Programação em C - Estruturas de decisão"};
-    Aula aula2 = {gerarProximoIDAula(), id_turma, "17/10/2025", 
+    Aula aula2 = {id_aula2, id_turma, "17/10/2025", 
                   "Estruturas de repetição: for, while e do-while"};
-    Aula aula3 = {gerarProximoIDAula(), id_turma, "22/10/2025", 
+    Aula aula3 = {id_aula3, id_turma, "22/10/2025", 
                   "Ponteiros e alocação dinâmica de memória"};
     
     printf("\n%s[TESTE]%s Registrando 3 aulas no diário da turma '%s'...\n", 
