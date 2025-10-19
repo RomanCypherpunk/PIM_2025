@@ -253,3 +253,4 @@ int registrarAcao(Sessao *sessao, const char *acao, const char *detalhes) {
     }
     
     FILE *arquivo = fopen(ARQUIVO_ACOES, "a");
+}

@@ -65,6 +65,21 @@ int salvarDados(const char *nome_arquivo, void *dados, int num_registros, int ti
             }
             break;
         }
+
+        case TIPO_ATIVIDADE: {
+            Atividade *atividades = (Atividade *)dados;
+            fprintf(arquivo, "ID,ID_Turma,Titulo,Descricao,Arquivo\n");
+
+            for (i = 0; i < num_registros; i++) {
+                fprintf(arquivo, "%d,%d,%s,%s,%s\n",
+                        atividades[i].id,
+                        atividades[i].id_turma,
+                        atividades[i].titulo,
+                        atividades[i].descricao,
+                        atividades[i].path_arquivo);
+            }
+            break;
+        }
         
         default:
             printf("Erro: tipo de dado desconhecido.\n");
@@ -126,6 +141,17 @@ int carregarDados(const char *nome_arquivo, void *destino, int max_registros, in
                        &aulas[contador].id_turma,
                        aulas[contador].data,
                        aulas[contador].conteudo);
+                break;
+            }
+
+            case TIPO_ATIVIDADE: {
+                Atividade *atividades = (Atividade *)destino;
+                sscanf(linha, "%d,%d,%[^,],%[^,],%[^\n]",
+                       &atividades[contador].id,
+                       &atividades[contador].id_turma,
+                       atividades[contador].titulo,
+                       atividades[contador].descricao,
+                       atividades[contador].path_arquivo);
                 break;
             }
         }
