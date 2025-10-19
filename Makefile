@@ -8,18 +8,31 @@ LDFLAGS =
 SRC_DIR = c_modules
 DATA_DIR = data
 
-# Arquivos fonte
-SOURCES = $(SRC_DIR)/file_manager.c \
-          $(SRC_DIR)/aluno_manager.c \
-          $(SRC_DIR)/turma_manager.c \
-          $(SRC_DIR)/aula_manager.c \
-          $(SRC_DIR)/main_test.c
+# Arquivos fonte para teste
+SOURCES_TEST = $(SRC_DIR)/file_manager.c \
+               $(SRC_DIR)/aluno_manager.c \
+               $(SRC_DIR)/turma_manager.c \
+               $(SRC_DIR)/aula_manager.c \
+               $(SRC_DIR)/usuario_manager.c \
+               $(SRC_DIR)/auth_manager.c \
+               $(SRC_DIR)/main_test.c
 
-# Arquivos objeto (substitui .c por .o)
-OBJECTS = $(SOURCES:.c=.o)
+# Arquivos fonte para servidor
+SOURCES_SERVER = $(SRC_DIR)/file_manager.c \
+                 $(SRC_DIR)/aluno_manager.c \
+                 $(SRC_DIR)/turma_manager.c \
+                 $(SRC_DIR)/aula_manager.c \
+                 $(SRC_DIR)/usuario_manager.c \
+                 $(SRC_DIR)/auth_manager.c \
+                 $(SRC_DIR)/servidor.c
 
-# Executável final
-TARGET = sistema_teste
+# Arquivos objeto
+OBJECTS_TEST = $(SOURCES_TEST:.c=.o)
+OBJECTS_SERVER = $(SOURCES_SERVER:.c=.o)
+
+# Executáveis
+TARGET_TEST = sistema_teste
+TARGET_SERVER = servidor
 
 # Regra padrão (all)
 all: $(TARGET)
