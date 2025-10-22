@@ -26,7 +26,19 @@ Data: 22/10/2025
 Conteúdo: Ponteiros e alocação dinâmica de memória
 ----------------------------------------
 
+Data: 15/10/2025
+Conteúdo: Introdução à Programação em C - Estruturas de decisão
+----------------------------------------
+
+Data: 17/10/2025
+Conteúdo: Estruturas de repetição: for, while e do-while
+----------------------------------------
+
+Data: 22/10/2025
+Conteúdo: Ponteiros e alocação dinâmica de memória
+----------------------------------------
+
 
 ========================================
-Total de aulas ministradas: 6
+Total de aulas ministradas: 9
 ========================================

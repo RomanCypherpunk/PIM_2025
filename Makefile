@@ -8,28 +8,47 @@ LDFLAGS =
 SRC_DIR = c_modules
 DATA_DIR = data
 
-# Arquivos fonte
-SOURCES = $(SRC_DIR)/file_manager.c \
-          $(SRC_DIR)/aluno_manager.c \
-          $(SRC_DIR)/turma_manager.c \
-          $(SRC_DIR)/aula_manager.c \
-          $(SRC_DIR)/main_test.c
+# Arquivos fonte para teste
+SOURCES_TEST = $(SRC_DIR)/file_manager.c \
+               $(SRC_DIR)/aluno_manager.c \
+               $(SRC_DIR)/turma_manager.c \
+               $(SRC_DIR)/aula_manager.c \
+               $(SRC_DIR)/atividade_manager.c \
+               $(SRC_DIR)/usuario_manager.c \
+               $(SRC_DIR)/auth_manager.c \
+               $(SRC_DIR)/main_test.c
 
-# Arquivos objeto (substitui .c por .o)
-OBJECTS = $(SOURCES:.c=.o)
+# Arquivos fonte para servidor
+SOURCES_SERVER = $(SRC_DIR)/file_manager.c \
+                 $(SRC_DIR)/aluno_manager.c \
+                 $(SRC_DIR)/turma_manager.c \
+                 $(SRC_DIR)/aula_manager.c \
+                 $(SRC_DIR)/atividade_manager.c \
+                 $(SRC_DIR)/usuario_manager.c \
+                 $(SRC_DIR)/auth_manager.c \
+                 $(SRC_DIR)/servidor.c
 
-# Executável final
-TARGET = sistema_teste
+# Executáveis
+TARGET_TEST = sistema_teste
+TARGET_SERVER = servidor
 
-# Regra padrão (all)
-all: $(TARGET)
+# Arquivos objeto
+OBJECTS_TEST = $(SOURCES_TEST:.c=.o)
+OBJECTS_SERVER = $(SOURCES_SERVER:.c=.o)
+
+# Regra padrão (all) - compila o executável de testes
+all: $(TARGET_TEST)
 	@echo "✅ Compilação concluída com sucesso!"
-	@echo "Execute com: ./$(TARGET)"
+	@echo "Execute com: ./$(TARGET_TEST)"
 
-# Regra para criar o executável
-$(TARGET): $(OBJECTS)
-	@echo "🔗 Linkando arquivos objeto..."
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
+# Regras específicas para cada executável
+$(TARGET_TEST): $(OBJECTS_TEST)
+	@echo "🔗 Linkando arquivos objeto (teste)..."
+	$(CC) $(CFLAGS) $(OBJECTS_TEST) -o $(TARGET_TEST) $(LDFLAGS)
+
+$(TARGET_SERVER): $(OBJECTS_SERVER)
+	@echo "🔗 Linkando arquivos objeto (servidor)..."
+	$(CC) $(CFLAGS) $(OBJECTS_SERVER) -o $(TARGET_SERVER) $(LDFLAGS)
 
 # Regra para compilar arquivos .c em .o
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
@@ -39,7 +58,7 @@ $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 # Regra para limpar arquivos compilados
 clean:
 	@echo "🧹 Limpando arquivos objeto e executável..."
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS_TEST) $(OBJECTS_SERVER) $(TARGET_TEST) $(TARGET_SERVER)
 	@echo "✅ Limpeza concluída!"
 
 # Regra para limpar tudo (incluindo dados)
@@ -55,10 +74,15 @@ setup:
 	@echo "✅ Estrutura criada!"
 
 # Regra para executar o programa
-run: $(TARGET)
+run: $(TARGET_TEST)
 	@echo "🚀 Executando o sistema de testes..."
 	@echo "=================================="
-	./$(TARGET)
+	./$(TARGET_TEST)
+
+run-server: $(TARGET_SERVER)
+	@echo "🚀 Executando o servidor..."
+	@echo "=================================="
+	./$(TARGET_SERVER)
 
 # Regra para recompilar tudo do zero
 rebuild: clean all
