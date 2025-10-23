@@ -52,7 +52,7 @@ typedef struct {
 typedef struct {
     int id;                    // ID único do usuário
     char login[MAX_LOGIN];     // Nome de login (único)
-    char senha_hash[65];       // Hash da senha (para segurança)
+    char senha[MAX_SENHA];     // Senha em texto plano
     char tipo[20];             // Tipo: "ADMIN", "PROFESSOR", "ALUNO"
     int ativo;                 // 1 = ativo, 0 = inativo
 } Usuario;

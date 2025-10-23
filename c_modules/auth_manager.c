@@ -9,19 +9,6 @@
 
 // ========== FUNÇÕES AUXILIARES PRIVADAS ==========
 
-// Hash simples de senha (mesma função do usuario_manager)
-static void hashSenha(const char *senha, char *hash_destino) {
-    unsigned long hash = 5381;
-    int c;
-    const char *str = senha;
-    
-    while ((c = *str++)) {
-        hash = ((hash << 5) + hash) + c;
-    }
-    
-    sprintf(hash_destino, "%lu", hash);
-}
-
 // Obter timestamp atual
 static long getTimestamp(void) {
     return (long)time(NULL);
@@ -89,12 +76,7 @@ int verificarSenha(const char *login, const char *senha) {
         return 0;
     }
     
-    // Gerar hash da senha fornecida
-    char hash_fornecido[65];
-    hashSenha(senha, hash_fornecido);
-    
-    // Comparar com o hash armazenado
-    return (strcmp(usuario->senha_hash, hash_fornecido) == 0);
+    return (strcmp(usuario->senha, senha) == 0);
 }
 
 // Fazer logout

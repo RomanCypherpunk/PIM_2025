@@ -29,7 +29,7 @@ static void carregarUsuariosMemoria(void) {
         sscanf(linha, "%d,%[^,],%[^,],%[^,],%d",
                &usuarios[total_usuarios].id,
                usuarios[total_usuarios].login,
-               usuarios[total_usuarios].senha_hash,
+               usuarios[total_usuarios].senha,
                usuarios[total_usuarios].tipo,
                &usuarios[total_usuarios].ativo);
         
@@ -47,32 +47,19 @@ static void salvarUsuariosArquivo(void) {
         return;
     }
     
-    fprintf(arquivo, "ID,Login,SenhaHash,Tipo,Ativo\n");
+    fprintf(arquivo, "ID,Login,Senha,Tipo,Ativo\n");
     
     for (int i = 0; i < total_usuarios; i++) {
         fprintf(arquivo, "%d,%s,%s,%s,%d\n",
                 usuarios[i].id,
                 usuarios[i].login,
-                usuarios[i].senha_hash,
+                usuarios[i].senha,
                 usuarios[i].tipo,
                 usuarios[i].ativo);
     }
     
     fclose(arquivo);
     printf("Usuários salvos com sucesso em %s\n", ARQUIVO_USUARIOS);
-}
-
-// Hash simples de senha (para fins didáticos - NÃO usar em produção)
-static void hashSenha(const char *senha, char *hash_destino) {
-    unsigned long hash = 5381;
-    int c;
-    const char *str = senha;
-    
-    while ((c = *str++)) {
-        hash = ((hash << 5) + hash) + c; // hash * 33 + c
-    }
-    
-    sprintf(hash_destino, "%lu", hash);
 }
 
 // ========== IMPLEMENTAÇÃO DAS FUNÇÕES PÚBLICAS ==========
@@ -211,22 +198,15 @@ int alterarSenha(int id, const char *senha_antiga, const char *senha_nova) {
     
     carregarUsuariosMemoria();
     
-    // Gerar hash da senha antiga para verificação
-    char hash_antiga[65];
-    hashSenha(senha_antiga, hash_antiga);
-    
     for (int i = 0; i < total_usuarios; i++) {
         if (usuarios[i].id == id) {
             // Verificar senha antiga
-            if (strcmp(usuarios[i].senha_hash, hash_antiga) != 0) {
+            if (strcmp(usuarios[i].senha, senha_antiga) != 0) {
                 printf("Erro: senha antiga incorreta.\n");
                 return 0;
             }
             
-            // Gerar hash da senha nova
-            char hash_nova[65];
-            hashSenha(senha_nova, hash_nova);
-            strcpy(usuarios[i].senha_hash, hash_nova);
+            strcpy(usuarios[i].senha, senha_nova);
             
             salvarUsuariosArquivo();
             printf("Senha alterada com sucesso!\n");
@@ -253,10 +233,7 @@ int resetarSenha(int id, const char *nova_senha) {
     
     for (int i = 0; i < total_usuarios; i++) {
         if (usuarios[i].id == id) {
-            // Gerar hash da senha nova
-            char hash_nova[65];
-            hashSenha(nova_senha, hash_nova);
-            strcpy(usuarios[i].senha_hash, hash_nova);
+            strcpy(usuarios[i].senha, nova_senha);
             
             salvarUsuariosArquivo();
             printf("Senha resetada com sucesso!\n");
@@ -401,9 +378,8 @@ int criarAdminPadrao(void) {
     strcpy(admin.login, "admin");
     
     // Senha padrão: "admin123"
-    char senha_padrao[] = "admin123";
-    hashSenha(senha_padrao, admin.senha_hash);
-    
+    strcpy(admin.senha, "admin123");
+
     strcpy(admin.tipo, "ADMIN");
     admin.ativo = 1;
     
