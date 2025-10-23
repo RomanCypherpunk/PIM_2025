@@ -1,0 +1,10 @@
+Set-Location "C:\Users\enzox\OneDrive\Área de Trabalho\PIM 3\PIM_2025"
+
+# ativa o venv (repare no & no início)
+& .\venv\Scripts\Activate.ps1
+
+# instala dependências só se for a primeira vez ou se mudar requirements
+pip install -r frontend\requirements.txt
+
+# inicia a interface
+python -m frontend.main

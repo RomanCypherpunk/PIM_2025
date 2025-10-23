@@ -59,18 +59,6 @@ static int gerarRaNovo(void) {
     return maior + 1;
 }
 
-static void gerarHashSenha(const char *senha, char *destino, size_t tamanho) {
-    unsigned long hash = 5381;
-    int c;
-    const char *ptr = senha;
-
-    while ((c = *ptr++) != 0) {
-        hash = ((hash << 5) + hash) + (unsigned long)c;
-    }
-
-    snprintf(destino, tamanho, "%lu", hash);
-}
-
 static void gerarLoginTeste(char *destino, size_t tamanho) {
     static int sequencia = 1;
     long marcador = (long)time(NULL) % 100000;
@@ -350,7 +338,7 @@ static void testarModuloUsuarios(void) {
     Usuario usuario;
     usuario.id = gerarProximoIDUsuario();
     gerarLoginTeste(usuario.login, sizeof(usuario.login));
-    gerarHashSenha("Senha@123", usuario.senha_hash, sizeof(usuario.senha_hash));
+    strcpy(usuario.senha, "Senha@123");
     strcpy(usuario.tipo, "PROFESSOR");
     usuario.ativo = 1;
 
