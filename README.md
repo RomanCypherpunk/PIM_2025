@@ -2,23 +2,27 @@
 
 ## Como iniciar rapidamente
 
-1. **Servidor C**  
+1. **Compilar os módulos C**  
    ```powershell
    Set-Location "C:\Users\enzox\OneDrive\Area de Trabalho\PIM 3\PIM_2025\c_modules"
-   mingw32-make servidor CC=gcc     # ou use gcc diretamente, ver observacao abaixo
-   .\servidor.exe
+   mingw32-make all CC=gcc         # ou use apenas mingw32-make
    ```
-   > Se o `mingw32-make` acusar falta do `pthread.h`, instale o toolchain mingw-w64 com suporte a pthreads e compile com `gcc -pthread`.
+   > Esse comando gera os executáveis `sistema_cli.exe` (modo manual) e `sistema_teste.exe` (fluxo automatizado), acessando apenas os arquivos CSV locais.
 
 2. **Modo manual em C (CRUD interativo)**  
    ```powershell
    Set-Location "C:\Users\enzox\OneDrive\Area de Trabalho\PIM 3\PIM_2025\c_modules"
-   mingw32-make sistema_cli CC=gcc   # ou use mingw32-make run-cli
-   .\sistema_cli.exe
+   mingw32-make run-cli CC=gcc     # ou apenas execute .\sistema_cli.exe se já compilou
    ```
-   > O executavel `sistema_cli` apresenta menus para criar, listar, alterar e remover registros de alunos, turmas, aulas, atividades e usuarios.
+   > O executável `sistema_cli` apresenta menus para criar, listar, alterar e remover registros de alunos, turmas, aulas, atividades e usuários diretamente nos CSVs da pasta `data`.
 
-3. **Frontend Python**  
+3. **Testes automatizados em C**  
+   ```powershell
+   Set-Location "C:\Users\enzox\OneDrive\Area de Trabalho\PIM 3\PIM_2025\c_modules"
+   mingw32-make run CC=gcc         # roda o executável sistema_teste.exe
+   ```
+
+4. **Frontend Python**  
    ```powershell
    Set-Location "C:\Users\enzox\OneDrive\Area de Trabalho\PIM 3\PIM_2025"
    & .\venv\Scripts\Activate.ps1
@@ -37,13 +41,13 @@ ID,Login,Senha,Tipo,Ativo
 
 Para adicionar alguem:
 
-1. Pare o servidor se estiver rodando.
+1. Feche o `sistema_cli.exe` se estiver em execução.
 2. Abra `data/usuarios.csv` e acrescente uma linha:
    ```
    2,professor1,prof123,PROFESSOR,1
    ```
-3. Salve o arquivo e reinicie o servidor (`.\servidor.exe`).
-4. Faca login com o novo usuario no frontend.
+3. Salve o arquivo e reabra o `sistema_cli.exe` (ou o frontend) para que os dados sejam recarregados.
+4. Faça login com o novo usuário.
 
 Tipos validos: `ADMIN`, `PROFESSOR`, `ALUNO`. A coluna `Ativo` deve ser `1` para permitir login.
 
