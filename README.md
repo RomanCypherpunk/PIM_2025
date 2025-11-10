@@ -29,6 +29,12 @@
    pip install -r frontend\requirements.txt
    python -m frontend.main
    ```
+   > A interface Tkinter abre com tela de login (lembrando que os dados sao lidos de `data/usuarios.csv`).  
+   > Depois de autenticado, o menu habilita apenas as abas permitidas para o perfil:
+   > - **ADMIN**: acesso total aos cadastros (usuarios, alunos, turmas, aulas e atividades) e relatorios.
+   > - **PROFESSOR**: pode consultar alunos, cadastrar/editar turmas, registrar aulas, enviar atividades e gerar relatorios.
+   > - **ALUNO**: pode consultar turmas/aulas, visualizar atividades e abrir relatorios de notas.
+
 
 ## Cadastro de usuarios (sem hash)
 
