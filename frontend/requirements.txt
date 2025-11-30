@@ -1,2 +1,0 @@
-# Tkinter utiliza apenas bibliotecas padrao; arquivo mantido para compatibilidade.
-
